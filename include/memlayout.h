@@ -7,6 +7,7 @@
 
 #define KERNLINK (KERNBASE+EXTMEM)  // Address where kernel is linked
 
+<<<<<<< HEAD
 #ifndef __ASSEMBLER__
 
 static inline u64 v2p(void *a) { return ((u64) (a)) - ((u64)KERNBASE); }
@@ -14,9 +15,18 @@ static inline void *p2v(u64 a) { return (void *) ((a) + ((u64)KERNBASE)); }
 
 #endif
 
+=======
+static inline u64 v2p(void *a) { return ((u64) (a)) - ((u64)KERNBASE); }
+static inline void *p2v(u64 a) { return (void *) ((a) + ((u64)KERNBASE)); }
+
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 #define V2P(a) (((uintp) (a)) - KERNBASE)
 #define P2V(a) (((void *) (a)) + KERNBASE)
 #define IO2V(a) (((void *) (a)) + DEVBASE - DEVSPACE)
 
 #define V2P_WO(x) ((x) - KERNBASE)    // same as V2P, but without casts
+<<<<<<< HEAD
 #define P2V_WO(x) ((x) + KERNBASE)    // same as V2P, but without casts
+=======
+#define P2V_WO(x) ((x) + KERNBASE)    // same as V2P, but without casts
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23

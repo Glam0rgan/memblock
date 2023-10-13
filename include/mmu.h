@@ -12,7 +12,11 @@
 #define PTX(va)           (((u64)(va) >> PTXSHIFT ) & PXMASK)
 
 // Page directory and page table constants.
+<<<<<<< HEAD
 #define PGSIZE          4096     // bytes a page
+=======
+#define PGSIZE          4096
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 
 #define PTXSHIFT        12       // offset of PTX in a linear address
 #define PDXSHIFT        21       // offset of PDX in a linear address
@@ -21,8 +25,13 @@
 
 #define PXMASK          0x1FF
 
+<<<<<<< HEAD
 #define ALIGN(x,a)       (((x) + (a) -1) & ~(a-1))
 #define ALIGN_DOWN(x,a)  ((x) & ~(a-1))
+=======
+#define ALIGN(x,a)         (((x)+(typeof(x))(a)-1) & ~((typeof(x))(a)-1)))
+#define ALIGN_DOWN(x,a)    ((x) & ~((typeof(x))(a)-1))
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 
 // Page entry flags
 #define PTE_P           0x001   // Present
@@ -65,14 +74,21 @@
 struct MEMORY_E820{
   int nr_map;
   struct{
+<<<<<<< HEAD
     u64 addr;
     u64 len;
     u32 type;
+=======
+    uint64 addr;
+    uint64 len;
+    uint32 type;
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
   }__attribute__((packed)) map[32];
 };
 
 // Segment Descriptor
 struct segdesc {
+<<<<<<< HEAD
   u32 lim_15_0 : 16;  // Low bits of segment limit
   u32 base_15_0 : 16; // Low bits of segment base address
   u32 base_23_16 : 8; // Middle bits of segment base address
@@ -86,6 +102,21 @@ struct segdesc {
   u32 db : 1;         // 0 = 16-bit segment, 1 = 32-bit segment
   u32 g : 1;          // Granularity: limit scaled by 4K when set
   u32 base_31_24 : 8; // High bits of segment base address
+=======
+  uint lim_15_0 : 16;  // Low bits of segment limit
+  uint base_15_0 : 16; // Low bits of segment base address
+  uint base_23_16 : 8; // Middle bits of segment base address
+  uint type : 4;       // Segment type (see STS_ constants)
+  uint s : 1;          // 0 = system, 1 = application
+  uint dpl : 2;        // Descriptor Privilege Level
+  uint p : 1;          // Present
+  uint lim_19_16 : 4;  // High bits of segment limit
+  uint avl : 1;        // Unused (available for software use)
+  uint rsv1 : 1;       // Reserved
+  uint db : 1;         // 0 = 16-bit segment, 1 = 32-bit segment
+  uint g : 1;          // Granularity: limit scaled by 4K when set
+  uint base_31_24 : 8; // High bits of segment base address
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 };
 
 // Normal segment
@@ -97,6 +128,7 @@ struct segdesc {
 { (lim) & 0xffff, (uintp)(base) & 0xffff,              \
   ((uintp)(base) >> 16) & 0xff, type, 1, dpl, 1,       \
   (uintp)(lim) >> 16, 0, 0, 1, 0, (uintp)(base) >> 24 }
+<<<<<<< HEAD
 
 struct list_head{
   struct list_head *next, *prev;
@@ -114,8 +146,32 @@ struct free_area{
 
 struct page{
   //struct list_head lru;
+=======
+#endif
+
+struct list_head{
+  struct list_head *pre, *nex;
+};
+
+struct free_area{
+  struct list_head free_list;
+  u64 nr_free;
+};
+
+struct zone{
+  struct free_area free_area[BUUDY_TYPES];
+
+}zone1;
+
+struct page{
+  list_head lru;
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
   u64 vaddr;
   u64 paddr;
 }__attribute__((packed));
 
+<<<<<<< HEAD
 #endif
+=======
+#endif
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23

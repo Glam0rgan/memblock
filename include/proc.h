@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNING, ZOMBIE};
 
+=======
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 struct proc{
   u64 size;
   u64* pgdir;
@@ -11,4 +14,8 @@ struct proc{
   struct context* context;
   int killed;
   char name[16];
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23

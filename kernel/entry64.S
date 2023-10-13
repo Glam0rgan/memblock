@@ -161,6 +161,10 @@ entry64mp:
 # obtain kstack from data block before entryother
   mov $0x7000, %rax
   mov -16(%rax), %rsp
+<<<<<<< HEAD
+=======
+  jmp mpenter
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 
 .global wrmsr
 wrmsr:

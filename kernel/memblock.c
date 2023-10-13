@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "types.h"
 #include "memblock.h"
 #include "memlayout.h"
@@ -9,6 +10,17 @@
 // Insert a region to the regions list
 int memblock_insert_region(struct memblock_type *type, int idx, u64 base, u64 size){
   struct memblock_region* rgn = &type->regions[idx];
+=======
+#include "memblock.h"
+#include "memlayout.h"
+#include "types.h"
+#include "mmu.h"
+#include "defs.h"
+
+// Insert a region to the regions list
+int memblock_insert_region(struct memblock_type *type, int idx, u64 base, u64 size){
+  struct memblock_regions *rgn = &type->regions[idx];
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
   memmove(rgn + 1, rgn, (type->cnt -idx)* sizeof(*rgn));
   rgn->base = base;
   rgn->size = size;
@@ -22,8 +34,13 @@ int memblock_merge_regions(struct memblock_type *type){
   int i = 0;
 
   while(i < type->cnt -1){
+<<<<<<< HEAD
     struct memblock_region* this = &type->regions[i];
     struct memblock_region* next = &type->regions[i+1];
+=======
+    struct memblock_regions* this = &type->regions[i];
+    struct memblock_regions* next = &type->regions[i+1];
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 
     if(this->base + this->size != next->base){
       i++;
@@ -35,10 +52,17 @@ int memblock_merge_regions(struct memblock_type *type){
   }
 }
 
+<<<<<<< HEAD
 void memblock_remove_region(struct memblock_type* type, u64 i){
   type->total_size -= type->regions[i].size;
   memmove(&type->regions[i], &type->regions[i+1],
      type->cnt - (i + 1) * sizeof( type->regions[i] ));
+=======
+void memblock_remove_region(struct memblock_type* type, u64 r){
+  type->total_size -= type->regions[i].size;
+  memmove(&type->regions[r], &type->regions[r+1],
+     type->cnt - (r + 1) * sizeof( type->regions[r] ));
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
   type->cnt--;
 
   if(type->cnt == 0){
@@ -54,7 +78,10 @@ int memblock_add_regions(struct memblock_type *type,u64 base,u64 size){
   u64 obase = base;
   u64 end = base + size;
   int idx, nr_new;
+<<<<<<< HEAD
   struct memblock_region* rgn;
+=======
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 
   if(!size)return 0;
 
@@ -67,7 +94,11 @@ int memblock_add_regions(struct memblock_type *type,u64 base,u64 size){
   repeat:
     base = obase;
     nr_new = 0;
+<<<<<<< HEAD
     for_each_memblock_type(idx, type, rgn){
+=======
+    for_each_memblock_type(type, rgn){
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
       u64 rbase = rgn->base;
       u64 rend = rbase + rgn->size;
 
@@ -95,7 +126,11 @@ int memblock_add_regions(struct memblock_type *type,u64 base,u64 size){
     if(!insert){
       if(type->cnt + nr_new > type->max)
         //panic();
+<<<<<<< HEAD
       insert = 1;
+=======
+      insert = true;
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
       goto repeat;
     }
     else{
@@ -108,7 +143,11 @@ int memblock_add(u64 base, u64 size){
   return memblock_add_regions(&memblock.memory, base, size);
 }
 
+<<<<<<< HEAD
 int memblock_reserve(u64 base, u64 size){
+=======
+void memblock_reserve(u64 base, u64 size){
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
   return memblock_add_regions(&memblock.reserved, base, size);
 }
 
@@ -122,18 +161,30 @@ void __next_mem_range_rev(u64* idx, struct memblock_type* type_a, struct membloc
   }
 
   for(; idx_a >= 0; idx_a--){
+<<<<<<< HEAD
     struct memblock_region* m = &type_a->regions[idx_a];
+=======
+    struct memblock_regions *m = &type_a->regions[idx_a];
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 
     u64 m_start = m->base;
     u64 m_end = m->base + m->size;
 
     for(; idx_b >= 0; idx_b--){
+<<<<<<< HEAD
       struct memblock_region* r;
+=======
+      struct memblock_regions *r;
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
       u64 r_start;
       u64 r_end;
 
       r = &type_b->regions[idx_b];
+<<<<<<< HEAD
       r_start = idx_b ? r[-1].base + r[-1].size : 0;
+=======
+      r->start = idx_b ? r[-1].base + r[-1].size : 0;
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
       r_end = idx_b < type_b->cnt ? r->base : ULLONG_MAX;
 
       if(r_end <= m_start)
@@ -151,7 +202,11 @@ void __next_mem_range_rev(u64* idx, struct memblock_type* type_a, struct membloc
       }    
     }
   }
+<<<<<<< HEAD
   *idx = ULLONG_MAX;
+=======
+  *idx = ULLONG_MAX:
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 }
 
 u64 __memblock_find_range_top_down(u64 start, u64 end, u64 size, u64 align){
@@ -159,6 +214,7 @@ u64 __memblock_find_range_top_down(u64 start, u64 end, u64 size, u64 align){
   u64 i;
 
   for_each_free_mem_range_reserve(i, &this_start, &this_end){
+<<<<<<< HEAD
     this_start = clamp(this_start, start, end);
     this_end = clamp(this_end, start, end);
 
@@ -170,6 +226,18 @@ u64 __memblock_find_range_top_down(u64 start, u64 end, u64 size, u64 align){
     cand = 1;
     if(cand >= this_start)
       return cand;
+=======
+    this.start = clamp(this.start, start, end);
+    this.end = clamp(this_end, start, end);
+
+    // The data is unsigned, so need to judge
+    if(this.end < size)
+      continue;
+
+    cand = round_down(this_end - size, align);
+    if(cand >= this_start)
+      return card;
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
   }
 
   return 0;       
@@ -207,21 +275,33 @@ u64 memblock_alloc_base(u64 size, u64 align, u64 max_addr){
   return alloc;
 }
 
+<<<<<<< HEAD
 u64 memblock_alloc(u64 size, u64 align){
+=======
+void memblock_alloc(u64 size, u64 align){
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
   return memblock_alloc_base(size, align, MEMBLOCK_ALLOC_ACCESSIBLE);
 }
 
 int memblock_isolate_range(struct memblock_type* type, u64 base, u64 size, int *start_rgn, int *end_rgn){
   u64 end = base + size;
   int idx;
+<<<<<<< HEAD
   struct memblock_region* rgn;
+=======
+  struct memblock_regions *rgn;
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 
   *start_rgn = *end_rgn = 0;
 
   if(!size)
     return 0;
 
+<<<<<<< HEAD
   for_each_memblock_type(idx, type, rgn){
+=======
+  for_each_memblock_type(type, rgn){
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
 
     u64 rbase = rgn->base;
     u64 rend = rbase + rgn->size;
@@ -270,6 +350,7 @@ int memblock_free(u64 base, u64 size){
 }
 
 void memblock_init(){
+<<<<<<< HEAD
   struct MEMORY_E820* ARDS = (struct MEMORY_E820*)(KERNBASE+ARDSOFFSET);
   u32 mem_tot = 0;
   for(int i=0; i < 32; i++){
@@ -283,3 +364,15 @@ void memblock_init(){
   }
   cprintf("%dMB\n",mem_tot/1048576 + 1);
 }
+=======
+  struct MEMORY_E820* ARDS = (struct MEMORY_E820*)(KERNBASE+ARDS_OFFSET);
+  for(int i=0; i < 32; i++){
+    if(ARDS->map[i].type < 1 || ARDS->map[i].type > 4) break;
+    cprintf();
+    if(ARDS->map[i].type == 1){
+      memblock_add(ARDS->map[i].addr, ARDS->map[i].size);
+      cprintf("%x %x\n", ARDS->map[i].addr, ARDS->map[i].len);
+    }
+  }
+}
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23

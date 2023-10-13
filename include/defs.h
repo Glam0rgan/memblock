@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 struct list_head;
 struct proc;
 
@@ -22,3 +23,18 @@ int             strlen(const char*);
 int             strncmp(const char*, const char*, u32);
 char*           strncpy(char*, const char*, int);
 
+=======
+
+
+
+// console.c
+
+void panic(char* s);
+
+// memblock.c
+
+void memblock_init(void);
+
+// proc.c
+void test(void);
+>>>>>>> 5eb3e1ade6684f4766a9bb2e9dd54ff24fee2b23
